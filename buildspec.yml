@@ -9,16 +9,16 @@ phases:
       # Install AWS CDK globally and locally to ensure it's available
       - npm install -g aws-cdk
       - npm install
-      - npm install aws-cdk # Ensuring local installation of aws-cdk
+      - npm install aws-cdk@latest --save-dev # Ensure local AWS CDK installation
       - npm install --save-dev ts-node # Install ts-node if required for TypeScript
   pre_build:
     commands:
-      # No pre-build commands in this case, but you can add them here if needed
+      # Print a message to indicate pre_build phase
       - echo Pre-build phase complete.
   build:
     commands:
       # Run cdk synth command using npx to ensure local version is used
-      - npx cdk synth
+      - npx --no-install cdk synth # Force usage of locally installed cdk
   post_build:
     commands:
       # You can add post-build actions here (such as cleanup or tests)
