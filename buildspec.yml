@@ -12,10 +12,11 @@ phases:
       # Clean the npm cache to avoid any potential cache issues
       - npm cache clean --force
 
-      # Clean up any existing cdk binary in node_modules/.bin
+      # Remove conflicting binaries (e.g., tsc) if they exist
+      - rm -f /codebuild/output/src3090643547/src/node_modules/.bin/tsc
       - rm -f /codebuild/output/src3090643547/src/node_modules/.bin/cdk
 
-      # Install AWS CDK globally with --force to avoid conflicts
+      # Install AWS CDK globally
       - npm install -g aws-cdk --force
 
       # Install dependencies locally (including aws-cdk if it's in your package.json)
@@ -44,3 +45,4 @@ artifacts:
 cache:
   paths:
     - "node_modules/**/*" # Cache node_modules to speed up future builds
+
