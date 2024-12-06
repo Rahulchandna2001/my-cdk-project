@@ -4,12 +4,11 @@ phases:
     commands:
       - npm install -g aws-cdk
       - npm install
-      - npm install --save-dev ts-node   # Ensure ts-node is installed
+      - npm install --save-dev ts-node # Explicitly install ts-node
   build:
     commands:
-      - cdk synth
-      - cdk deploy --require-approval never
+      - npx cdk synth # Using `npx` to ensure the correct executable is used
+      - npx cdk deploy --require-approval never # Using `npx` here as well
 artifacts:
   files:
-    - '**/*'
-
+    - "**/*"
