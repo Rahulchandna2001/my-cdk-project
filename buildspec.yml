@@ -12,7 +12,10 @@ phases:
       # Clean the npm cache to avoid any potential cache issues
       - npm cache clean --force
 
-      # Remove conflicting binaries (e.g., tsc) if they exist
+      # Remove the existing node_modules directory to avoid conflicts
+      - rm -rf /codebuild/output/src3090643547/src/node_modules
+
+      # Remove conflicting binaries like tsc and cdk if they exist
       - rm -f /codebuild/output/src3090643547/src/node_modules/.bin/tsc
       - rm -f /codebuild/output/src3090643547/src/node_modules/.bin/cdk
 
@@ -45,4 +48,3 @@ artifacts:
 cache:
   paths:
     - "node_modules/**/*" # Cache node_modules to speed up future builds
-
