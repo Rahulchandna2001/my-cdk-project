@@ -1,19 +1,17 @@
 version: 0.2
-
 phases:
   install:
     commands:
-      - echo "Cleaning npm cache and node_modules..."
-      - npm cache clean --force # Clear npm cache to avoid corrupted files
-      - rm -rf node_modules # Remove existing node_modules to avoid conflicts
-      - npm install -g aws-cdk # Install AWS CDK globally
-      - npm install # Install project dependencies
-
+      - echo "Installing AWS CDK"
+      - npm install -g aws-cdk
+      - echo "Installing dependencies"
+      - npm install
   build:
     commands:
-      - echo "Running CDK Synth..."
-      - cdk synth # Synthesize the CloudFormation template
-
+      - echo "Synthesizing the CDK stack"
+      - cdk synth
+      - echo "Deploying the CDK stack"
+      - cdk deploy --require-approval never
 artifacts:
   files:
     - "**/*"
