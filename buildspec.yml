@@ -1,14 +1,34 @@
 version: 0.2
+
 phases:
   install:
     commands:
+      # Ensure Node.js and npm versions are correct
+      - node -v
+      - npm -v
+      # Install AWS CDK globally and locally to ensure it's available
       - npm install -g aws-cdk
       - npm install
-      - npm install --save-dev ts-node # Explicitly install ts-node
+      - npm install aws-cdk # Ensuring local installation of aws-cdk
+      - npm install --save-dev ts-node # Install ts-node if required for TypeScript
+  pre_build:
+    commands:
+      # No pre-build commands in this case, but you can add them here if needed
+      - echo Pre-build phase complete.
   build:
     commands:
-      - npx cdk synth # Using `npx` to ensure the correct executable is used
-      - npx cdk deploy --require-approval never # Using `npx` here as well
+      # Run cdk synth command using npx to ensure local version is used
+      - npx cdk synth
+  post_build:
+    commands:
+      # You can add post-build actions here (such as cleanup or tests)
+      - echo Post-build phase complete.
+
 artifacts:
   files:
     - "**/*"
+  discard-paths: yes
+
+cache:
+  paths:
+    - "node_modules/**/*"
