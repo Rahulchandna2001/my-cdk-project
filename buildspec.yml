@@ -2,33 +2,41 @@ version: 0.2
 
 phases:
   install:
+    runtime-versions:
+      nodejs: 14 # You can adjust this based on the Node.js version you need
     commands:
-      # Ensure Node.js and npm versions are correct
+      # Check the Node.js and npm versions
       - node -v
       - npm -v
-      # Install AWS CDK globally and locally to ensure it's available
+
+      # Install AWS CDK globally and locally
       - npm install -g aws-cdk
+      - npm install aws-cdk --save-dev
+
+      # Install all dependencies
       - npm install
-      - npm install aws-cdk@latest --save-dev # Ensure local AWS CDK installation
-      - npm install --save-dev ts-node # Install ts-node if required for TypeScript
+
   pre_build:
     commands:
-      # Print a message to indicate pre_build phase
-      - echo Pre-build phase complete.
+      # You can add any pre-build commands here (e.g., environment setup)
+      - echo "Pre-build phase completed."
+
   build:
     commands:
-      # Run cdk synth command using npx to ensure local version is used
-      - npx --no-install cdk synth # Force usage of locally installed cdk
+      # Run the CDK synthesis command
+      - npx cdk synth
+
   post_build:
     commands:
-      # You can add post-build actions here (such as cleanup or tests)
-      - echo Post-build phase complete.
+      # Any post-build tasks you might have
+      - echo "Build completed."
 
 artifacts:
   files:
-    - "**/*"
-  discard-paths: yes
+    - "**/*" # Upload all files (adjust as necessary)
+  discard-paths: yes # Optional: discard paths when uploading
 
 cache:
   paths:
-    - "node_modules/**/*"
+    - "node_modules/**/*" # Cache node_modules to speed up future builds
+
