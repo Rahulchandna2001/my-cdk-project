@@ -5,18 +5,21 @@ phases:
     runtime-versions:
       nodejs: 14
     commands:
-      # Check the Node.js and npm versions
+      # Check Node.js and npm versions
       - node -v
       - npm -v
 
-      # Clean up any existing `cdk` binary in node_modules/.bin
+      # Clean the npm cache to avoid any potential cache issues
+      - npm cache clean --force
+
+      # Clean up any existing cdk binary in node_modules/.bin
       - rm -f /codebuild/output/src3090643547/src/node_modules/.bin/cdk
 
-      # Install AWS CDK globally
-      - npm install -g aws-cdk
+      # Install AWS CDK globally with --force to avoid conflicts
+      - npm install -g aws-cdk --force
 
-      # Install dependencies (including aws-cdk locally)
-      - npm install
+      # Install dependencies locally (including aws-cdk if it's in your package.json)
+      - npm install --force
 
   pre_build:
     commands:
@@ -41,4 +44,3 @@ artifacts:
 cache:
   paths:
     - "node_modules/**/*" # Cache node_modules to speed up future builds
-
