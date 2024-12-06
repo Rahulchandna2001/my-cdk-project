@@ -3,22 +3,24 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      nodejs: 14 # You can adjust this based on the Node.js version you need
+      nodejs: 14
     commands:
       # Check the Node.js and npm versions
       - node -v
       - npm -v
 
-      # Install AWS CDK globally and locally
-      - npm install -g aws-cdk
-      - npm install aws-cdk --save-dev
+      # Clean up any existing `cdk` binary in node_modules/.bin
+      - rm -f /codebuild/output/src3090643547/src/node_modules/.bin/cdk
 
-      # Install all dependencies
+      # Install AWS CDK globally
+      - npm install -g aws-cdk
+
+      # Install dependencies (including aws-cdk locally)
       - npm install
 
   pre_build:
     commands:
-      # You can add any pre-build commands here (e.g., environment setup)
+      # Optional pre-build commands if necessary
       - echo "Pre-build phase completed."
 
   build:
@@ -28,7 +30,7 @@ phases:
 
   post_build:
     commands:
-      # Any post-build tasks you might have
+      # Optional post-build commands if necessary
       - echo "Build completed."
 
 artifacts:
